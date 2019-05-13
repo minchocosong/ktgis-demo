@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ktgis-demo
+  namespace: ktgis
+  labels:
+    name: ktgis-demo
+spec:
+  selector:
+    matchLabels:
+      app: ktgis-demo
+  template:
+    metadata:
+      labels:
+        app: ktgis-demo
+    spec:
+      containers:
+        - name: ktgis-demo
+          image: devcluster.icp:8500/ktgis/ktgis-demo
+          ports:
+            - containerPort: 8080

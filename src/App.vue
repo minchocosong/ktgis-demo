@@ -1,28 +1,55 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <v-toolbar app>
+      <v-btn icon>
+        <v-img
+        :src="require('./assets/kt_logo.png')"
+        contain
+        height="20"></v-img>
+      </v-btn>
+        <v-text-field
+          v-model="keyword"
+          append-outer-icon="search"
+          @click:append-outer="search"
+          clearable
+        ></v-text-field>
+      <v-spacer></v-spacer>
+    </v-toolbar>
+    <v-content>
+      <Step/>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Step from './components/Step'
 
 export default {
-  name: 'app',
+  name: 'App',
   components: {
-    HelloWorld
+    Step
+  },
+  data () {
+    return {
+      keyword:''
+    }
+  },
+  methods: {
+    sendMessage () {
+      this.clearKeyword()
+    },
+    clearKeyword () {
+      this.keyword = ''
+    },
+    search () {
+      console.log('search' + this.keyword)
+      const baseURI = 'http://169.56.70.69:32578';
+      this.$http.get(`${baseURI}/search?keyword=`+this.keyword)
+      .then((result) => {
+        console.log(result)
+      })
+
+    }
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
