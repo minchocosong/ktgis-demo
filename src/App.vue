@@ -16,13 +16,14 @@
       <v-spacer></v-spacer>
     </v-toolbar>
     <v-content>
-      <Step/>
+      <Step data="searchResult"/>
     </v-content>
   </v-app>
 </template>
 
 <script>
 import Step from './components/Step'
+import sample from './sample.json'
 
 export default {
   name: 'App',
@@ -31,7 +32,8 @@ export default {
   },
   data () {
     return {
-      keyword:''
+      keyword:'',
+      searchResult: ''
     }
   },
   methods: {
@@ -39,13 +41,14 @@ export default {
       this.clearKeyword()
     },
     clearKeyword () {
-      this.keyword = ''
+      this.keyword = ''  
     },
     search () {
       console.log('search' + this.keyword)
       const baseURI = 'http://169.56.70.69:32578';
-      this.$http.get(`${baseURI}/search?keyword=`+this.keyword)
+      this.$http.get(`${baseURI}/search?test=true&keyword=`+this.keyword)
       .then((result) => {
+        this.searchResult = result
         console.log(result)
       })
 

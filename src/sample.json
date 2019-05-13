@@ -1,0 +1,307 @@
+{
+    "transactionId": "833b0e23-87b0-4094-8c4f-0f54531572b6",
+    "data": {
+        "poi": [
+            {
+                "name": "남산타워",
+                "addressCode": "1100000000",
+                "lat": 37.123125325,
+                "lng": 127.13324234
+            }
+        ],
+        "address": [
+            {
+                "siDo": "서울특별시",
+                "siGunGu": "용산구",
+                "dong": "용산동2가",
+                "street": "남산공원길",
+                "lat": 37.123125325,
+                "lng": 127.13324234
+            }
+        ],
+        "_steps": {
+            "Dictionary": {
+                "transactionId": "833b0e23-87b0-4094-8c4f-0f54531572b6",
+                "candidateList": [
+                    {
+                        "tokenList": [
+                            {
+                                "name": "서울",
+                                "type": null
+                            },
+                            {
+                                "name": "영등포구",
+                                "type": null
+                            },
+                            {
+                                "name": "여의도",
+                                "type": null
+                            },
+                            {
+                                "name": "ifc",
+                                "type": null
+                            },
+                            {
+                                "name": "몰",
+                                "type": null
+                            },
+                            {
+                                "name": "주차장",
+                                "type": null
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Address": {
+                "transactionId": "833b0e23-87b0-4094-8c4f-0f54531572b6",
+                "candidateList": [
+                    {
+                        "tokenList": [
+                            {
+                                "name": "서울",
+                                "type": "SIDO"
+                            },
+                            {
+                                "name": "영등포구",
+                                "type": "SIGUNGU"
+                            },
+                            {
+                                "name": "여의도",
+                                "type": "DONG"
+                            },
+                            {
+                                "name": "ifc",
+                                "type": null
+                            },
+                            {
+                                "name": "몰",
+                                "type": null
+                            },
+                            {
+                                "name": "주차장",
+                                "type": null
+                            }
+                        ],
+                        "address": {
+                            "name": "여의도동",
+                            "code": "1156011000"
+                        }
+                    }
+                ]
+            },
+            "Landmark": {
+                "transactionId": "833b0e23-87b0-4094-8c4f-0f54531572b6",
+                "candidateList": [
+                    {
+                        "tokenList": [
+                            {
+                                "name": "서울",
+                                "type": null
+                            },
+                            {
+                                "name": "영등포구",
+                                "type": null
+                            },
+                            {
+                                "name": "여의도",
+                                "type": null
+                            },
+                            {
+                                "name": "ifc",
+                                "type": null
+                            },
+                            {
+                                "name": "몰",
+                                "type": null
+                            },
+                            {
+                                "name": "주차장",
+                                "type": null
+                            }
+                        ],
+                        "landmark": {
+                            "id": null,
+                            "name": null,
+                            "addressCode": null,
+                            "lat": null,
+                            "lng": null,
+                            "categoryCode": null,
+                            "categoryName": null
+                        }
+                    }
+                ]
+            },
+            "Analyzer": {
+                "transactionId": "833b0e23-87b0-4094-8c4f-0f54531572b6",
+                "data": {
+                    "originalKeyword": "서울 영등포구 여의도 ifc 몰 주차장",
+                    "refinedKeyword": "서울 영등포구 여의도 ifc 몰 주차장",
+                    "candidateList": [
+                        {
+                            "tokenList": [
+                                {
+                                    "name": "서울",
+                                    "type": null
+                                },
+                                {
+                                    "name": "영등포구",
+                                    "type": null
+                                },
+                                {
+                                    "name": "여의도",
+                                    "type": null
+                                },
+                                {
+                                    "name": "ifc",
+                                    "type": null
+                                },
+                                {
+                                    "name": "몰",
+                                    "type": null
+                                },
+                                {
+                                    "name": "주차장",
+                                    "type": null
+                                }
+                            ]
+                        },
+                        {
+                            "tokenList": [
+                                {
+                                    "name": "서울",
+                                    "type": "SIDO"
+                                },
+                                {
+                                    "name": "영등포구",
+                                    "type": "SIGUNGU"
+                                },
+                                {
+                                    "name": "여의도",
+                                    "type": "DONG"
+                                },
+                                {
+                                    "name": "ifc",
+                                    "type": null
+                                },
+                                {
+                                    "name": "몰",
+                                    "type": null
+                                },
+                                {
+                                    "name": "주차장",
+                                    "type": null
+                                }
+                            ],
+                            "address": {
+                                "name": "여의도동",
+                                "code": "1156011000"
+                            }
+                        },
+                        {
+                            "tokenList": [
+                                {
+                                    "name": "서울",
+                                    "type": null
+                                },
+                                {
+                                    "name": "영등포구",
+                                    "type": null
+                                },
+                                {
+                                    "name": "여의도",
+                                    "type": null
+                                },
+                                {
+                                    "name": "ifc",
+                                    "type": null
+                                },
+                                {
+                                    "name": "몰",
+                                    "type": null
+                                },
+                                {
+                                    "name": "주차장",
+                                    "type": null
+                                }
+                            ],
+                            "landmark": {
+                                "id": null,
+                                "name": null,
+                                "addressCode": null,
+                                "lat": null,
+                                "lng": null,
+                                "categoryCode": null,
+                                "categoryName": null
+                            }
+                        }
+                    ]
+                }
+            },
+            "PatternExecutor": {
+                "transactionId": "833b0e23-87b0-4094-8c4f-0f54531572b6",
+                "data": {
+                    "poi": [
+                        {
+                            "lat": 37.123125325,
+                            "addressCode": "1100000000",
+                            "lng": 127.13324234,
+                            "name": "남산타워"
+                        }
+                    ],
+                    "address": [
+                        {
+                            "dong": "용산동2가",
+                            "street": "남산공원길",
+                            "lat": 37.123125325,
+                            "siGunGu": "용산구",
+                            "siDo": "서울특별시",
+                            "lng": 127.13324234
+                        }
+                    ]
+                }
+            },
+            "PatternBuilder": {
+                "transactionId": "833b0e23-87b0-4094-8c4f-0f54531572b6",
+                "data": {
+                    "candidateList": [
+                        {
+                            "tokenList": [
+                                {
+                                    "name": "서울",
+                                    "type": null
+                                },
+                                {
+                                    "name": "영등포구",
+                                    "type": null
+                                },
+                                {
+                                    "name": "여의도",
+                                    "type": null
+                                },
+                                {
+                                    "name": "ifc",
+                                    "type": null
+                                },
+                                {
+                                    "name": "몰",
+                                    "type": null
+                                },
+                                {
+                                    "name": "주차장",
+                                    "type": null
+                                }
+                            ],
+                            "address": null,
+                            "landmark": null
+                        }
+                    ],
+                    "originalKeyword": "서울 영등포구 여의도 ifc 몰 주차장",
+                    "pattern": "ADDRESS_AND_CATEGORY_LANDMARK",
+                    "_steps": null,
+                    "refinedKeyword": "서울 영등포구 여의도 ifc 몰 주차장"
+                }
+            }
+        }
+    }
+}
