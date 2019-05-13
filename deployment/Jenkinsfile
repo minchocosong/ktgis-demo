@@ -14,7 +14,6 @@ def notifyFailed() {
 
 podTemplate(label: label,
         containers: [
-            containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat'),
             containerTemplate(name: 'docker', image: 'docker:stable', ttyEnabled: true, command: 'cat'),
 	        containerTemplate(name: 'argo-cd-tools', image: 'argoproj/argo-cd-tools:latest', ttyEnabled: true, command: 'cat', args: '', envVars:[envVar(key: 'GIT_SSH_COMMAND', value: 'ssh -o StrictHostKeyChecking=no')] )
             ],
@@ -49,18 +48,6 @@ podTemplate(label: label,
                     def deployRepoUrl =  props['deployRepoUrl']
 
                     notifyStarted()
-
-                    /*stage('Build Maven project Test') {
-                        container('maven') {
-                            sh "mvn -B clean test"
-                        }
-                    }*/
-
-                    stage('Build Maven project') {
-                        container('maven') {
-                            sh "mvn -B clean package compile -Dmaven.test.skip=true"
-                        }
-                    }
 
                     stage('Build Docker image') {
                         container('docker') {
