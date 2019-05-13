@@ -1,0 +1,102 @@
+def label = "sumapp-${UUID.randomUUID().toString()}"
+
+def notifyStarted() {
+    slackSend (baseUrl: 'https://ibmkg.slack.com/services/hooks/jenkins-ci/', channel: '#gis-mvp', color: 'FFFF00', message: "BUILD STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})", token: 'dZ1r43Iwy32BYkVzybqHrp8u', tokenCredentialId: 'slack-gis-mvp')
+}
+
+def notifySuccessful() {
+    slackSend (baseUrl: 'https://ibmkg.slack.com/services/hooks/jenkins-ci/', channel: '#gis-mvp', color: 'FFFF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})", token: 'dZ1r43Iwy32BYkVzybqHrp8u', tokenCredentialId: 'slack-gis-mvp')
+}
+
+def notifyFailed() {
+    slackSend (baseUrl: 'https://ibmkg.slack.com/services/hooks/jenkins-ci/', channel: '#gis-mvp', color: 'FFFF00', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})", token: 'dZ1r43Iwy32BYkVzybqHrp8u', tokenCredentialId: 'slack-gis-mvp')
+}
+
+podTemplate(label: label,
+        containers: [
+            containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat'),
+            containerTemplate(name: 'docker', image: 'docker:stable', ttyEnabled: true, command: 'cat'),
+	        containerTemplate(name: 'argo-cd-tools', image: 'argoproj/argo-cd-tools:latest', ttyEnabled: true, command: 'cat', args: '', envVars:[envVar(key: 'GIT_SSH_COMMAND', value: 'ssh -o StrictHostKeyChecking=no')] )
+            ],
+        volumes: [
+            hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'),
+            hostPathVolume(hostPath: '/root/.m2' , mountPath: '/root/.m2')
+            ]
+        ) {
+
+            // dateformatting
+            //def dateFormat = new SimpleDateFormat("yyyyMMddHHmm")
+            //def date = new Date()
+            //def date_tag = dateFormat.format(date)
+
+            node(label) {
+
+                try {
+                    stage('Get Source') {
+                        withCredentials([[$class: 'UsernamePasswordMultiBinding',
+                                            credentialsId: 'gitlab-auth-minchoco',
+                                            usernameVariable: 'username',
+                                            passwordVariable: 'password']]) {
+                            git credentialsId: 'gitlab-auth-minchoco', url: 'http://169.56.70.68:10080/ktgis/demoSite.git'
+                        }
+                    }
+
+                    def props = readProperties  file:'deployment/pipeline.properties'
+                    def tag = VersionNumber (versionNumberString: '${BUILD_DATE_FORMATTED, "yyyyMMdd"}-develop-${BUILDS_TODAY}')
+                    def dockerRegistry = props['dockerRegistry']
+                    def image = props['image']
+                    def argocdAppPrefix = props['argocdAppPrefix']
+                    def deployRepoUrl =  props['deployRepoUrl']
+
+                    notifyStarted()
+
+                    /*stage('Build Maven project Test') {
+                        container('maven') {
+                            sh "mvn -B clean test"
+                        }
+                    }*/
+
+                    stage('Build Maven project') {
+                        container('maven') {
+                            sh "mvn -B clean package compile -Dmaven.test.skip=true"
+                        }
+                    }
+
+                    stage('Build Docker image') {
+                        container('docker') {
+                              docker.withRegistry("${dockerRegistry}", 'registry-credentials') {
+                                    sh "docker build -t ${image}:${tag} ."
+                                    sh "docker push ${image}:${tag}"
+                                    sh "docker tag ${image}:${tag} ${image}:latest"
+                                    sh "docker push ${image}:latest"
+                              }
+                        }
+                    }
+
+                    // argoCD command
+                    def env1 = "dev"
+                    stage( "Deploy ${env1}" ) {
+                      container('argo-cd-tools') {
+                        println("Deploying to ${argocdAppPrefix}")
+                          dir("deployment-${env1}-${tag}") {
+                            withCredentials([usernamePassword(credentialsId: 'gitlab-auth-minchoco', usernameVariable: 'username', passwordVariable: 'password')]) {
+                              sh "git config --global user.name 'minchoco'"
+                              sh "git config --global user.email 'minchocosong@gmail.com'"
+                              sh "git config --global http.sslVerify false"
+                              //sh "git clone ${deployRepoUrl}"
+                              git credentialsId: 'gitlab-auth-minchoco', url: "http://${deployRepoUrl}"
+                              sh "pwd && ls -lat"
+                              //sh "cd \$(basename 'demosite-config') && cp ./templates/deploy.yaml ./${env1}/deploy.yaml && sed -i s%IMAGE_TAG_PLACEHOLDER%${tag}% ./${env1}/deploy.yaml && git add * && git commit -m 'update image for ${env1} for app commit ${tag}' && git push http://$username:$password@${deployRepoUrl} --all"
+                              sh "cp ./templates/deploy.yaml ./${env1}/deploy.yaml && sed -i s%IMAGE_TAG_PLACEHOLDER%${tag}% ./${env1}/deploy.yaml && git add * && git commit -m 'update image for ${env1} for app commit ${tag}' && git push http://$username:$password@${deployRepoUrl} --all --force"
+                            }
+                            }
+                        }
+                    }
+
+                    notifySuccessful()
+                } catch(e) {
+                    currentBuild.result = "FAILED"
+                    notifyFailed()
+                }
+            }
+        }
