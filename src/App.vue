@@ -11,12 +11,14 @@
           v-model="keyword"
           append-outer-icon="search"
           @click:append-outer="search"
+          @keyup.enter="search"
           clearable
         ></v-text-field>
       <v-spacer></v-spacer>
     </v-toolbar>
     <v-content>
-      <Step data="searchResult"/>
+      <v-progress-linear v-if="progressing" :indeterminate="true"></v-progress-linear>
+      <Step v-if="searchResult !== ''" :result="searchResult" :keyword="keyword"/>
     </v-content>
   </v-app>
 </template>
@@ -33,7 +35,8 @@ export default {
   data () {
     return {
       keyword:'',
-      searchResult: ''
+      searchResult: '',
+      progressing: false,
     }
   },
   methods: {
@@ -45,11 +48,12 @@ export default {
     },
     search () {
       console.log('search' + this.keyword)
+      this.progressing = true
       const baseURI = 'http://169.56.70.69:32578';
       this.$http.get(`${baseURI}/search?test=true&keyword=`+this.keyword)
       .then((result) => {
-        this.searchResult = result
-        console.log(result)
+        this.searchResult = result.data.data
+        this.progressing = false
       })
 
     }
