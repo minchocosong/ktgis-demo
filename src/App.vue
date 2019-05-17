@@ -19,6 +19,13 @@
     <v-content>
       <v-progress-linear v-if="progressing" :indeterminate="true"></v-progress-linear>
       <Step v-if="searchResult !== ''" :result="searchResult" :keyword="keyword"/>
+       <v-carousel height="800" v-if="searchResult == ''" >
+          <v-carousel-item
+            v-for="(item,i) in items"
+            :key="i"
+            :src="item.src"
+          ></v-carousel-item>
+        </v-carousel>
     </v-content>
   </v-app>
 </template>
@@ -37,6 +44,14 @@ export default {
       keyword:'',
       searchResult: '',
       progressing: false,
+        items: [
+          {
+            src: require('./assets/talk.jpeg')
+          },
+          {
+            src: require('./assets/develop.jpeg')
+          }
+        ]
     }
   },
   methods: {
@@ -52,9 +67,17 @@ export default {
       const baseURI = 'http://169.56.70.69:32578';
       this.$http.get(`${baseURI}/search?test=true&keyword=`+this.keyword)
       .then((result) => {
-        this.searchResult = result.data.data
         this.progressing = false
-      })
+        console.log(result)
+        if(result !== null && result.data !== null && result.data.data !== null){
+          this.searchResult = result.data.data
+        }else{
+          console.log('data has error')
+        }
+      }).catch(error => {
+          this.progressing = false
+          console.log(error)
+      });
 
     }
   }

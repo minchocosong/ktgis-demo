@@ -56,15 +56,13 @@ export default {
   data () {
     return {
       e6: 1,
-      keywordStep:''
+      keywordStep:'',
     }
   },
   mounted() {
     console.log('step created')
     console.log(this.result)
     this.e6=1
-
-
   },
   updated() {
     if(this.keyword !== this.keywordStep){
