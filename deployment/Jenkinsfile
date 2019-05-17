@@ -1,7 +1,7 @@
 def label = "sumapp-${UUID.randomUUID().toString()}"
 
 def notifyStarted() {
-    slackSend (baseUrl: 'https://ibmkg.slack.com/services/hooks/jenkins-ci/', channel: '#gis-mvp', color: 'FFFF00', message: "BUILD STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})", token: 'dZ1r43Iwy32BYkVzybqHrp8u', tokenCredentialId: 'slack-gis-mvp')
+    slackSend (baseUrl: 'https://ibmkg.slack.com/services/hooks/jenkins-ci/', channel: '#gis-mvp', color: 'FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})", token: 'dZ1r43Iwy32BYkVzybqHrp8u', tokenCredentialId: 'slack-gis-mvp')
 }
 
 def notifySuccessful() {
@@ -30,6 +30,8 @@ podTemplate(label: label,
             node(label) {
 
                 try {
+                    notifyStarted()
+
                     stage('Get Source') {
                         withCredentials([[$class: 'UsernamePasswordMultiBinding',
                                             credentialsId: 'gitlab-auth-minchoco',
@@ -45,8 +47,6 @@ podTemplate(label: label,
                     def image = props['image']
                     def argocdAppPrefix = props['argocdAppPrefix']
                     def deployRepoUrl =  props['deployRepoUrl']
-
-                    notifyStarted()
 
                     stage('Build Docker image') {
                         container('docker') {
