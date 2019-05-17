@@ -54,6 +54,8 @@
             panControl: false,
             mapTypeControl:false
         });
+        this.eraseOnMap(this.markerList)
+        this.drawAllMarkers(this.result.poi)
     },
     updated (){
         console.log('updated')
