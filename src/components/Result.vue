@@ -46,7 +46,7 @@
         map: null,
         markerList: []
     }),
-    mounted (){
+    created (){
         console.log('map')
         this.map=new window.olleh.maps.Map(document.getElementById('map'),{
             center: new window.olleh.maps.LatLng(37.57201137787062, 126.97888043751267),
