@@ -25,7 +25,7 @@
             :key="i"
             :src="item.src"
           ></v-carousel-item>
-        </v-carousel>
+        </v-carousel>   
     </v-content>
   </v-app>
 </template>
