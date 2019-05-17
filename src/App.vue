@@ -65,6 +65,9 @@ export default {
       console.log('search' + this.keyword)
       this.progressing = true
       const baseURI = 'http://169.56.70.69:32578';
+      if(this.keyword === ''){
+        this.searchResult == ''
+      }
       this.$http.get(`${baseURI}/search?test=true&keyword=`+this.keyword)
       .then((result) => {
         this.progressing = false
