@@ -54,7 +54,6 @@
             panControl: false,
             mapTypeControl:false
         });
-        this.updated()
     },
     updated (){
         console.log('updated')
