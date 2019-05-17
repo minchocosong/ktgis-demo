@@ -75,7 +75,7 @@ export default {
         if(result !== null && result.data !== null && result.data.data !== null){
           this.searchResult = result.data.data
         }else{
-          console.log('data has error')
+          console.log('data has error') 
         }
       }).catch(error => {
           this.progressing = false
